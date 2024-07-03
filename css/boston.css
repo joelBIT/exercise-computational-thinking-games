@@ -1,0 +1,54 @@
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+figure {
+    height: 10rem;
+    width: 10rem;
+}
+
+.die {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.one {
+    background-image: url(/assets/dice1.png);
+}
+
+.two {
+    background-image: url(/assets/dice2.png);
+}
+
+.three {
+    background-image: url(/assets/dice3.png);
+}
+
+.four {
+    background-image: url(/assets/dice4.png);
+}
+
+.five {
+    background-image: url(/assets/dice5.png);
+}
+
+.six {
+    background-image: url(/assets/dice6.png);
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+button {
+    font-size: 24px;
+}
+
+.finished {
+    color: green;
+}
