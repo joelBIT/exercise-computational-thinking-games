@@ -1,3 +1,5 @@
+'use strict';
+
 const knockNumbers = ['6', '7', '8', '9'];
 
 const throwButton = document.querySelector(".throw");
@@ -14,20 +16,18 @@ let knockNumber = 0;
 let targetSum;
 throwButton.disabled = true;
 
+/**
+ * A throw of two dice. Their dot sum is added to the total sum unless it corresponds to the knock-out number. Then, the dot sum 
+ * is subtracted from the total sum.
+ */
 throwButton.addEventListener('click', () => {
-    let firstThrow = throwDie();
-    let secondThrow = throwDie();
+    let firstDieDots = throwDie();
+    let secondDieDots = throwDie();
 
-    changeDieSide(die1, firstThrow);
-    changeDieSide(die2, secondThrow);
+    changeDieSide(die1, firstDieDots);
+    changeDieSide(die2, secondDieDots);
 
-    let throwSum = firstThrow + secondThrow;
-
-    if (throwSum == knockNumber) {
-        totalSum -= throwSum;
-    } else {
-        totalSum += throwSum;
-    }
+    updateTotalSum(firstDieDots + secondDieDots);
 
     totalLabel.innerHTML = `Total sum: ${totalSum}`;
 
@@ -37,6 +37,9 @@ throwButton.addEventListener('click', () => {
     }
 });
 
+/**
+ * Resets the game state.
+ */
 restartButton.addEventListener('click', () => {
     throwButton.disabled = false;
 
@@ -53,12 +56,18 @@ restartButton.addEventListener('click', () => {
     targetLabel.innerHTML = `Target sum: ${targetSum}`;
 });
 
+/**
+ * Prompts the user for the knock-out number.
+ */
 function getKnockNumber() {
     while (!knockNumbers.includes(knockNumber)) {
         knockNumber = prompt('Enter a knock out number (either 6, 7, 8, or 9)');
     }
 }
 
+/**
+ * Prompts the user for the target point.
+ */
 function getTargetNumber() {
     while (isNaN(targetSum)) {
         targetSum = prompt('Enter a target point for when the game is over');
@@ -67,6 +76,25 @@ function getTargetNumber() {
     targetSum = Math.trunc(targetSum);
 }
 
+/**
+ * If dotSum corresponds to the knock-out number, subtract dotSum from the total sum. Otherwise, add dotSum to the total sum.
+ * 
+ * @param {*} dotSum the sum of the two dice dots.
+ */
+function updateTotalSum(dotSum) {
+    if (dotSum == knockNumber) {
+        totalSum -= dotSum;
+    } else {
+        totalSum += dotSum;
+    }
+}
+
+/**
+ * Change the die side image to that of the thrown die.
+ * 
+ * @param {*} die the die element
+ * @param {*} dots the number of dots of the die side
+ */
 function changeDieSide(die, dots) {
     die.className = 'die';
 
@@ -92,10 +120,18 @@ function changeDieSide(die, dots) {
     }
 }
 
+/**
+ * Simulates a die throw.
+ * 
+ * @returns a number between 1 and 6
+ */
 function throwDie() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
+/**
+ * Inform the user that the game is over, and disable the throw button.
+ */
 function gameOver() {
     targetLabel.innerHTML = 'GAME OVER';
     targetLabel.classList.add('finished');
