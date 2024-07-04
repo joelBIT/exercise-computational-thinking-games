@@ -30,6 +30,9 @@ let playerScore = 0;
 let computerScore = 0;
 let gameOver = false;
 
+/**
+ * Resets the game state.
+ */
 restartButton.addEventListener('click', () => {
     outcomeText.innerHTML = 'Choose hand shape';
 
@@ -49,6 +52,10 @@ restartButton.addEventListener('click', () => {
     playerScoreLabel.innerHTML = 'You: 0';
 });
 
+/**
+ * Add eventlistener for each hand shape. Computer generates a hand gesture (corresponding number) when you click on
+ * a hand gesture. Then your hand gesture is compared to the computer's hand gesture.
+ */
 for (const hand of playable) {
     hand.addEventListener('click', (event) => {
         if (gameOver) {
@@ -63,6 +70,11 @@ for (const hand of playable) {
     });
 }
 
+/**
+ * 
+ * @param {*} targetElement is the figure element that was clicked on.
+ * @returns a number corresponding to rock (1), paper (2), and scissors (3)
+ */
 function getYourHand(targetElement) {
     if (targetElement.classList.contains('paper')) {
         return 2;
@@ -74,6 +86,7 @@ function getYourHand(targetElement) {
 }
 
 /**
+ * Updates the scoreboard for computer and player.
  * 
  * @param {*} yourHand can be 1 (rock), 2 (paper), 3 (scissors)
  * @param {*} enemyHand can be 1 (rock), 2 (paper), 3 (scissors)
@@ -95,6 +108,11 @@ function updateScore(yourHand, enemyHand) {
     computerScoreLabel.innerHTML = `Computer: ${computerScore}`;
 }
 
+/**
+ * Change computer's hand image.
+ * 
+ * @param {*} enemyHand number corresponding to Rock, Paper or Scissors.
+ */
 function setEnemyHandImage(enemyHand) {
     enemyHandImage.className = 'enemy-hand';
 
@@ -107,6 +125,9 @@ function setEnemyHandImage(enemyHand) {
     }
 }
 
+/**
+ * If game is over, disable hands and change color of Game Over text. Red if you lose, green if you win.
+ */
 function checkIfGameOver() {
     if (playerScore === targetScore || computerScore === targetScore) {
         gameOver = true;
