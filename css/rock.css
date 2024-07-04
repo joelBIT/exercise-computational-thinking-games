@@ -68,3 +68,7 @@ section {
     margin-top: 5rem;
     margin-bottom: 10rem;
 }
+
+.disabled {
+    opacity: 0.5;
+}

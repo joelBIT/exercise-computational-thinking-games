@@ -42,6 +42,10 @@ restartButton.addEventListener('click', () => {
     outcomeText.classList.remove('win');
     outcomeText.classList.remove('loss');
 
+    for (const hand of playable) {
+        hand.classList.remove('disabled');
+    }
+
     playerScoreLabel.innerHTML = 'You: 0';
 });
 
@@ -107,6 +111,10 @@ function checkIfGameOver() {
     if (playerScore === targetScore || computerScore === targetScore) {
         gameOver = true;
         outcomeText.innerHTML = 'GAME IS OVER';
+        for (const hand of playable) {
+            hand.classList.add('disabled');
+        }
+
         if (playerScore > computerScore) {
             outcomeText.classList.add('win');
         } else {
