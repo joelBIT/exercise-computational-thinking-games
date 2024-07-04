@@ -1,3 +1,5 @@
+'use strict';
+
 const throwButton = document.querySelector(".throw");
 const restartButton = document.querySelector(".restart");
 const totalLabel = document.querySelector(".total");
@@ -7,48 +9,29 @@ const throwsLabel = document.querySelector('.throws');
 let totalSum = 0;
 throwButton.disabled = true;
 let throwsLeft = 3;
-let diceLeft = [0, 1, 2];
+let diceLeft = [0, 1, 2];   // contains the dice ids. A kept die has its id removed from this array.
 
+/**
+ * One die is kept on each throw until there is only one die left. When that last die has been thrown, the game is over.
+ */
 throwButton.addEventListener('click', () => {
-    console.log(diceLeft.length);
     if (throwsLeft === 3) {
         throwsLeft--;
-        let firstThrow = throwDie();
-        let secondThrow = throwDie();
-        let thirdThrow = throwDie();
-    
-        changeDieSide(dice[0], firstThrow);
-        changeDieSide(dice[1], secondThrow);
-        changeDieSide(dice[2], thirdThrow);
-
-        keepFirstDie(firstThrow, secondThrow, thirdThrow);
+        firstThrow();
         throwsLabel.innerHTML = `Throws left: ${throwsLeft}`;
-
-        return;
-    }
-
-    if (throwsLeft === 2) {
+    } else if (throwsLeft === 2) {
         throwsLeft--;
-        let firstThrow = throwDie();
-        let secondThrow = throwDie();
-
-        changeDieSide(dice[diceLeft[0]], firstThrow);
-        changeDieSide(dice[diceLeft[1]], secondThrow);
-
-        keepSecondDie(firstThrow, secondThrow);
+        secondThrow();
         throwsLabel.innerHTML = `Throws left: ${throwsLeft}`;
-
-        return;
+    } else {
+        lastThrow();
+        totalLabel.innerHTML = `Total sum: ${totalSum}`;
     }
-
-    let lastThrow = throwDie();
-    changeDieSide(dice[diceLeft[0]], lastThrow);
-    totalSum += lastThrow;
-    gameOver();
-
-    totalLabel.innerHTML = `Total sum: ${totalSum}`;
 });
 
+/**
+ * Reset the game state.
+ */
 restartButton.addEventListener('click', () => {
     throwButton.disabled = false;
 
@@ -61,6 +44,12 @@ restartButton.addEventListener('click', () => {
     throwsLabel.innerHTML = `Throws left: ${throwsLeft}`;
 });
 
+/**
+ * Change the die side image to that of the thrown die.
+ * 
+ * @param {*} die the die element
+ * @param {*} dots the number of dots of the die side
+ */
 function changeDieSide(die, dots) {
     die.className = 'die';
 
@@ -86,16 +75,47 @@ function changeDieSide(die, dots) {
     }
 }
 
+/**
+ * Simulates a die throw.
+ * 
+ * @returns a number between 1 and 6
+ */
 function throwDie() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
+/**
+ * Inform the user that the game is over, and disable the throw button.
+ */
 function gameOver() {
     throwsLabel.innerHTML = 'GAME OVER';
     throwsLabel.classList.add('finished');
     throwButton.disabled = true;
 }
 
+/**
+ * All three dice are thrown on the first throw.
+ */
+function firstThrow() {
+    let firstThrow = throwDie();
+    let secondThrow = throwDie();
+    let thirdThrow = throwDie();
+
+    changeDieSide(dice[0], firstThrow);
+    changeDieSide(dice[1], secondThrow);
+    changeDieSide(dice[2], thirdThrow);
+
+    keepFirstDie(firstThrow, secondThrow, thirdThrow);
+}
+
+/**
+ * Check which die has the most dots on its side. Keep that die. The die is kept by removing its id from the diceLeft array.
+ * Add the number of dots to the sum of kept dice dots.
+ * 
+ * @param {*} firstThrow is the number of dots for die 1
+ * @param {*} secondThrow is the number of dots for die 2
+ * @param {*} thirdThrow is the number of dots for die 3
+ */
 function keepFirstDie(firstThrow, secondThrow, thirdThrow) {
     if (firstThrow >= secondThrow) {
         if (firstThrow < thirdThrow) {
@@ -116,6 +136,26 @@ function keepFirstDie(firstThrow, secondThrow, thirdThrow) {
     }
 }
 
+/**
+ * Only two dice are thrown the second throw.
+ */
+function secondThrow() {
+    let firstThrow = throwDie();
+    let secondThrow = throwDie();
+
+    changeDieSide(dice[diceLeft[0]], firstThrow);
+    changeDieSide(dice[diceLeft[1]], secondThrow);
+
+    keepSecondDie(firstThrow, secondThrow);
+}
+
+/**
+ * Check which die has the most dots on its side. Keep that die. The die is kept by removing its id from the diceLeft array.
+ * Add the number of dots to the sum of kept dice dots.
+ * 
+ * @param {*} firstThrow is the number of dots for die 1
+ * @param {*} secondThrow is the number of dots for die 2
+ */
 function keepSecondDie(firstThrow, secondThrow) {
     if (firstThrow >= secondThrow) {
         totalSum += firstThrow;
@@ -124,4 +164,14 @@ function keepSecondDie(firstThrow, secondThrow) {
         totalSum += secondThrow;
         diceLeft.splice(1, 1);
     }
+}
+
+/**
+ * Only one die is thrown in the last throw.
+ */
+function lastThrow() {
+    let lastThrow = throwDie();
+    changeDieSide(dice[diceLeft[0]], lastThrow);
+    totalSum += lastThrow;
+    gameOver();
 }
