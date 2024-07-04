@@ -1,0 +1,70 @@
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    display: inline;
+    margin: 5rem;
+}
+
+figure {
+    width: 15rem;
+    height: 15rem;
+}
+
+.rock {
+    background: url('/assets/rock.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.paper {
+    background: url('/assets/paper.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.scissors {
+    background: url('/assets/scissors.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.buttons {
+    display: flex;
+}
+
+button {
+    font-size: 24px;
+    height: 4rem;
+    margin: 4rem;
+}
+
+.outcome {
+    text-align: center;
+}
+
+.win {
+    color: green;
+}
+
+.loss {
+    color: red
+}
+
+section {
+    figure:hover {
+        opacity: 0.5;
+    }
+}
+
+.enemy-hand {
+    width: 100%;
+    margin-left: 40%;
+    margin-top: 5rem;
+    margin-bottom: 10rem;
+}
