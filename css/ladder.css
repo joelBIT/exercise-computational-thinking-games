@@ -52,3 +52,8 @@ button {
 .six {
     background-image: url(/assets/dice6.png);
 }
+
+header {
+    position: absolute;
+    left: 0;
+}

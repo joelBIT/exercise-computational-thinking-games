@@ -72,3 +72,12 @@ section {
 .disabled {
     opacity: 0.5;
 }
+
+nav {
+    position: absolute;
+    left: 0;
+
+    a {
+        display: block;
+    }
+}

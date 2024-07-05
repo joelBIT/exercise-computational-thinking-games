@@ -52,3 +52,12 @@ button {
 .finished {
     color: green;
 }
+
+header {
+    position: absolute;
+    left: 0;
+
+    a {
+        display: block;
+    }
+}
