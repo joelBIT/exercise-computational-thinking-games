@@ -33,7 +33,6 @@ throwButton.addEventListener('click', () => {
 
     if (totalSum >= targetSum) {
         gameOver();
-        return;
     }
 });
 
