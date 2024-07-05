@@ -1,0 +1,30 @@
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header {
+    position: absolute;
+    left: 0;
+
+    a {
+        display: block;
+    }
+}
+
+button {
+    font-size: 24px;
+    vertical-align: baseline;
+}
+
+.try {
+    margin-left: 5rem;
+}
+
+input {
+    height: 2rem;
+    font-size: 24px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

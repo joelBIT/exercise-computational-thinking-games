@@ -3,21 +3,43 @@
 let secretNumber = Math.trunc(Math.random() * 100) + 1;
 let minNumber = 1;
 let maxNumber = 100;
+let number;
 
-let number = Math.trunc(prompt(`Enter an integer between ${minNumber} and ${maxNumber}`));
+const label = document.querySelector('h2');
+const input = document.querySelector('#guess');
+const tryButton = document.querySelector('.try');
+const restartButton = document.querySelector(".reset");
 
-while (secretNumber !== number) {
+/**
+ * Check if the given input value corresponds to the secret number. If the given value is lower or higher than the secret number,
+ * update the minNumber or maxNumber values accordingly.
+ */
+tryButton.addEventListener('click', () => {
+    number = input.value;
+
     if (number < secretNumber) {
         if (minNumber < number) {
             minNumber = number;
         }
-        number = Math.trunc(prompt(`Too low. Enter an integer between ${minNumber} and ${maxNumber}`));
+        label.innerHTML = `Too low. Enter an integer between ${minNumber} and ${maxNumber}`;
     } else if (number > secretNumber) {
         if (maxNumber > number) {
             maxNumber = number;
         }
-        number = Math.trunc(prompt(`Too high. Enter an integer between ${minNumber} and ${maxNumber}`));
+        label.innerHTML = `Too high. Enter an integer between ${minNumber} and ${maxNumber}`;
+    } else {
+        label.innerHTML = `You won. Your number is the same as the secret number ${secretNumber}`;
+        tryButton.disabled = true;
     }
-}
+});
 
-alert(`You won. Your number is the same as the secret number ${secretNumber}`);
+/**
+ * Resets the game state.
+ */
+restartButton.addEventListener('click', () => {
+    tryButton.disabled = false;
+    minNumber = 1;
+    maxNumber = 100;
+    secretNumber = Math.trunc(Math.random() * 100) + 1;
+    label.innerHTML = `Enter an integer between 1 and 100:`;
+});
